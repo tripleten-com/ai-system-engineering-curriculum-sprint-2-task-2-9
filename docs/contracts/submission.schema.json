@@ -1,0 +1,38 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$comment": "Coldline Task 2.9 public answer contract. Two decision selections, both reused rather than newly made: the service boundary this repository delegates, and whether the Task 2.7 experiment's configuration was kept or reverted. Both are checked against facts the delivered repository embodies - the composition in src/api/, and the two files under config/ - because a Task repository carries no other Task's student work and can read no other repository. There is no self-attestation field, no pass boolean, and no recording URL: administrative completion is the instructor's record, not a student's answer.",
+  "title": "Coldline Task 2.9 answers",
+  "description": "Two reused decision selections, defended orally and checked against the delivered system.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "answers"
+  ],
+  "properties": {
+    "answers": {
+      "description": "The only top-level answer mapping accepted by the public verifier.",
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "defended_boundary",
+        "defended_decision"
+      ],
+      "properties": {
+        "defended_boundary": {
+          "description": "Which of Task 2.2's two responsibilities the delivered composition delegates to a service. Read it from src/api/retrieval_workflow.py and the composition that injects one of its two halves; `poe review-evidence` names the files.",
+          "enum": [
+            "retrieval_orchestration",
+            "context_assembly"
+          ]
+        },
+        "defended_decision": {
+          "description": "Whether Task 2.7's experimental configuration was kept or reverted. Read it from whether config/student/retrieval.yaml still matches config/retrieval-baseline.yaml.",
+          "enum": [
+            "keep",
+            "revert"
+          ]
+        }
+      }
+    }
+  }
+}
