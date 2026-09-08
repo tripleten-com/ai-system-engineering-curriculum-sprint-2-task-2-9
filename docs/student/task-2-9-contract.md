@@ -11,7 +11,7 @@ code and no essay.
 | The pull request changes only `submission.yaml` and passes CI | Automated, in this repository |
 | The two recorded decisions match the delivered system | Automated, in this repository |
 | Your defense of the boundary, the data layer, and the experiments | Your instructor, live |
-| All nine Sprint 2 pull requests are CI-green | Your instructor, before sign-off |
+| All nine accepted Sprint 2 submission commits have passing public and required CMS grading outcomes | Your instructor, before sign-off |
 
 Administrative completion is the instructor's record. There is no self-approval field, no pass
 boolean, and no recording URL in `submission.yaml` — an answer sheet that could carry those would
@@ -70,7 +70,13 @@ poe compare     # Part 3: the two evaluation signals, the classification, the po
 poe diagnose    # Part 3: the per-stage evidence behind the miss attribution
 ```
 
-Both need the stack running (`poe start`, then `poe ingest`).
+`poe diagnose` needs the stack running (`poe start`, then `poe ingest`). To prepare a local
+comparison of this supplied checkpoint, also run `poe benchmark-baseline` and
+`poe benchmark-experiment` before `poe compare`. The comparison reads those two retained reports;
+it does not capture them. These optional local captures do not replace the evidence in your
+Task 2.7 pull request and are not additional submission artifacts for this Task. Until the
+latency constants are published, the comparison reports an assessment blocker instead of a
+keep/revert verdict.
 
 ## What the checks verify
 
