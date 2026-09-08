@@ -69,8 +69,9 @@ poe verify
 | `poe review-evidence` | Print where each Sprint 2 decision's evidence lives in this repository |
 | `poe review-checks` | Run this Task's review checks; no container needed |
 | `poe diagnose` | Print the per-stage evidence behind the Task 2.8 miss attribution |
-| `poe benchmark` | Measure the adopted retrieval configuration against the original baseline |
-| `poe compare` | The same, with the cached judge comparison and the adoption policy |
+| `poe benchmark-baseline` | Capture the baseline arm in `.benchmark/baseline.json` |
+| `poe benchmark-experiment` | Capture the supplied configuration in `.benchmark/experiment.json` |
+| `poe compare` | Read both captured reports, compare the cached judge evidence, and apply the adoption policy |
 | `poe migrate` | Apply every migration inside the API container |
 | `poe migrate-current` | Print the revision the database is stamped at |
 | `poe migrate-down` | Roll back the most recent migration |
@@ -95,8 +96,8 @@ readiness, smoke tests, the end-to-end exception workflow, the answer-sheet chec
 checks, and your own tests under `tests/student/`.
 
 The review checks themselves need no container: every fact they read is in the source tree, so
-`poe review-checks` runs on its own. `poe compare` and `poe diagnose` do need the stack, and they
-are here as live evidence for the defense rather than as checks.
+`poe review-checks` runs on its own. `poe diagnose` and the benchmark capture commands need the
+stack. `poe compare` reads previously captured reports and needs no running container.
 
 ## Folder map
 
@@ -192,18 +193,26 @@ read another. Your own Task 2.2 and Task 2.7 choices stay in those Tasks' pull r
 oral defense is where you explain the choices you made and the trade-offs you accepted. See
 [`docs/student/task-2-9-contract.md`](docs/student/task-2-9-contract.md).
 
-Task 2.8's held-out scenario and its protected job belong to that Task and are not in this
-repository. Your instructor confirms all nine Sprint 2 pull requests are CI-green before sign-off.
+Task 2.8's private held-out evaluation belongs to that Task's CMS grading integration. Your
+instructor confirms passing public and required CMS grading outcomes for all nine accepted
+submission commits before sign-off.
 
 ## The settled experiment
 
-Task 2.7's experiment is closed. Both configuration files are supplied and protected from this
-Task, and `poe benchmark` and `poe compare` remain available as a standing diagnostic that compares
-the adopted configuration against the original baseline.
+Both configuration files are supplied and protected in this Task. For an optional local
+comparison, start and ingest the system, then run `poe benchmark-baseline` and
+`poe benchmark-experiment` before `poe compare`. The first two commands capture reports;
+`poe compare` reads them without running the system or measuring again. Use the capture command's
+`--recapture` option to replace its existing report. These local reports are not Task 2.9
+submission artifacts and do not replace your Task 2.7 evidence.
+
+The draft adoption policy still has unpublished latency constants. A comparison reports that
+blocker and exits unsuccessfully; the supplied configuration is not evidence of an approved
+keep/revert decision.
 
 ```text
 config/retrieval-baseline.yaml   the original baseline
-config/student/retrieval.yaml    the configuration Task 2.7's evidence adopted
+config/student/retrieval.yaml    the supplied checkpoint configuration
 ```
 
 Both arms state their parameters per request through the supplied evaluation endpoint, so neither
@@ -292,6 +301,14 @@ one extra query, so ordinary requests leave it off.
 Contract checks marked `runtime` need the running stack. `poe contract` skips them; `poe verify`
 and `poe runtime-contract` run them.
 
+## Submission checks
+
+Run `poe verify` locally before opening your student pull request. Public GitHub CI repeats
+the student checks. The course platform (CMS) runs the required protected grading separately
+and associates its results with your submission commit. A green template-export check, or a
+skipped student check on an `export/` branch, is not a passing grade. You do not configure
+GitHub grading secrets. Follow the Task lesson's instructor-review and progression policy.
+
 ## Task boundary
 
 Task 2.9 asks you to assemble the pull request record you built across Sprint 2, record **two**
@@ -314,15 +331,16 @@ holds.
 ### Student walkthrough
 
 See **Task 2.9: Instructor Presentation / Review** in your course platform for the full
-walkthrough. In outline: confirm every Task 2.1 to 2.8 pull request is CI-green, run
+walkthrough. In outline: confirm passing public and required CMS grading outcomes for every
+accepted Task 2.1 to 2.8 submission commit, run
 `poe review-evidence` and open the files it names, record the two decisions in `submission.yaml`,
 run `poe review-checks` and then `poe verify`, open your pull request, rehearse the three segments
 inside ten minutes with `poe compare` and `poe diagnose` ready to show, and deliver the defense.
 
 ## Operational limits
 
-This local system has no user authentication, authorization, TLS termination, or production secret
-store. A retrieval request states its own tenancy and clearance, so that context is an asserted
+This local system does not authenticate users, terminate TLS, or manage production secrets.
+A retrieval request states its own tenancy and clearance, so that context is an asserted
 identity rather than a verified one. The Compose PostgreSQL password and the LocalStack access keys
 are local-only non-secret credentials. Never place real credentials, personal data, or production
 records in this repository, including in `infra/corpus/`.
