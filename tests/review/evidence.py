@@ -11,8 +11,9 @@ Concepts:          Evidence reuse, decisions embodied in code
 Tools:             Python 3.12
 
 Supplied and protected. Task 2.9 asks you to defend decisions rather than make
-new ones, and the evidence for every one of them is in this repository. This
-module says where, and derives the two decisions the delivered system embodies.
+new ones. This module locates the supplied checkpoint and derives its two
+configuration facts. Prior student implementations and run results remain in
+their original Task pull requests.
 
 Two notes on what "derives" means here.
 
@@ -107,7 +108,10 @@ SEGMENTS: dict[str, tuple[EvidenceItem, ...]] = {
                 "src/adapters/persistence/document_repository.py",
                 "src/api/document_service.py",
             ),
-            show="the transaction that makes a partial write impossible, and its failure test",
+            show=(
+                "the supplied transaction implementation here; open your Task 2.3 pull request "
+                "for your implementation and recorded failed-write rollback test"
+            ),
         ),
         EvidenceItem(
             task="2.4",

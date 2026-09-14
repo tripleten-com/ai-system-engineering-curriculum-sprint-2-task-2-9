@@ -70,6 +70,9 @@ def main() -> int:
     print("Your own Task 2.2 and Task 2.7 choices stay in those Tasks' pull requests. This")
     print("sheet records what the delivered system does; the oral defense is where you")
     print("explain the choices you made and the trade-offs you accepted.")
+    print("A configuration difference does not establish an approved adoption decision.")
+    print("Check the supplied benchmark policy's release status; use your")
+    print("original Task 2.7 reports for measured evidence, and name any missing evidence.")
     print()
     print(f"Repository under review: {TASK_ROOT}")
     return 0
