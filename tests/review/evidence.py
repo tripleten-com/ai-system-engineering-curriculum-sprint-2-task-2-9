@@ -115,10 +115,13 @@ SEGMENTS: dict[str, tuple[EvidenceItem, ...]] = {
         ),
         EvidenceItem(
             task="2.4",
-            decision="Tenant-boundary authorization applied at query time",
+            decision="Tenant and classification authorization applied at query time",
             paths=(
                 "src/domain/access.py",
                 "src/domain/tenant_authorization.py",
+                "src/api/access_policy.py",
+                "src/api/extensions/wiring.py",
+                "tests/contract/test_authorization_checkpoint.py",
                 "src/adapters/retriever/postgres_hybrid.py",
                 "docs/fidelity/Retriever.md",
             ),
