@@ -144,6 +144,7 @@ review-evidence = "python -m tests.review.checklist"
 # The review checks read the source tree and the composition, so they need no
 # container.
 review-checks = "pytest tests/contract/test_sprint_review.py -m assessed"
+authorization-checkpoint = "pytest tests/contract/test_authorization_checkpoint.py -m runtime"
 student-tests = "pytest tests/student"
 test = ["unit", "contract"]
 preflight = "python infra/scripts/preflight.py"
@@ -159,6 +160,7 @@ verify = [
   "start",
   "ready",
   "ingest",
+  "authorization-checkpoint",
   "smoke",
   "e2e",
   "answers",
